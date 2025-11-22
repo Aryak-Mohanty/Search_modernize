@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="icon.png" />
+  <title>Search Website</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    /* 1. LAYOUT: Vertical Flex for the whole page */
+    body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #f5efe7;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    a.nav-link {
+      color: #007b00;
+      text-decoration: none;
+    }
+
+    a.nav-link:hover {
+      color: #005500;
+    }
+
+    /* 2. NAVBAR */
+    nav.navbar {
+      position: relative !important;
+      flex: 0 0 auto;
+      z-index: 1030;
+      background: inherit;
+    }
+
+    /* 3. CONTAINER */
+    #container {
+      display: flex;
+      flex: 1;
+      height: 100%;
+      margin-top: 0;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    /* 4. SEARCH FRAME */
+    #searchFrame {
+      min-width: 200px;
+      overflow: hidden;
+      min-height: 250px;
+      flex-shrink: 0;
+      z-index: 1;
+    }
+
+    /* === NEW: Apply Inter font to the Search heading === */
+    #searchFrame h1 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      /* Makes it bolder like Google Sans */
+    }
+
+    /* ---------------------------------------------------- */
+
+    /* 5. DIVIDER (Desktop Default) */
+    #divider {
+      flex: 0 0 6px;
+      cursor: col-resize;
+      background: #ddd;
+      position: relative;
+      z-index: 100;
+    }
+
+    #divider::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 4px;
+      height: 30px;
+      background: #aaa;
+      border-radius: 2px;
+      transform: translate(-50%, -50%);
+    }
+
+    /* 6. RESULT FRAME */
+    #resultFrame {
+      overflow-y: auto;
+      flex: 1;
+      min-height: 150px;
+      z-index: 0;
+    }
+
+    /* === DARK MODE STYLES === */
+    body.dark-mode {
+      background: #222;
+      color: #fff;
+    }
+
+    body.dark-mode a.nav-link {
+      color: #8fe08b !important;
+    }
+
+    body.dark-mode #divider {
+      background: #555;
+    }
+
+    body.dark-mode .result-card {
+      background: #333 !important;
+      color: #eee !important;
+    }
+
+    body.dark-mode .result-card .text-muted {
+      color: #8fe08b !important;
+    }
+
+    body.dark-mode nav.navbar {
+      background: #333 !important;
+      border-bottom: 1px solid #444 !important;
+    }
+
+    body.dark-mode nav.navbar .nav-link {
+      color: #8fe08b !important;
+    }
+
+    body.dark-mode #themeLabel {
+      color: #8fe08b !important;
+    }
+
+    /* === MOBILE FIXES === */
+    @media(max-width:768px) {
+      #container {
+        flex-direction: column;
+      }
+
+      #divider {
+        flex: 0 0 10px !important;
+        height: 10px;
+        width: 100%;
+        cursor: row-resize;
+        z-index: 100;
+      }
+
+      #divider::after {
+        width: 30px;
+        height: 4px;
+      }
+    }
+  </style>
+</head>
+
+<body id="pageBody" class="h-100">
+
+  <nav class="navbar bg-white border-bottom shadow-sm px-3 d-flex justify-content-between">
+    <div class="d-flex align-items-center gap-5 gap-md-3 gap-lg-5">
+      <a class="nav-link fw-bold" href="#">Home</a>
+      <a class="nav-link fw-bold" href="https://aryak-mohanty.github.io/Projects/">List</a>
+    </div>
+    <div class="d-flex align-items-center gap-1">
+      <span id="themeLabel" class="nav-link fw-bold">Light</span>
+      <label class="form-switch m-0" style="cursor:pointer; display:inline-flex; align-items:center;">
+        <input type="checkbox" id="darkToggleBtn" style="display:none;">
+        <span id="toggleSlider"
+          style="width:44px;height:24px;background:#ccc;border-radius:24px;position:relative;transition:0.3s;display:inline-block;">
+          <span
+            style="width:20px;height:20px;background:#fff;border-radius:50%;position:absolute;top:2px;left:2px;transition:0.3s;"></span>
+        </span>
+      </label>
+    </div>
+  </nav>
+
+  <div id="container" class="d-flex">
+    <div id="searchFrame" class="p-4 d-flex flex-column align-items-center justify-content-center border-end">
+      <h1 class="mb-4">Search</h1>
+      <input id="searchInput" class="form-control mb-3" style="max-width:300px" autocomplete="off">
+      <button id="searchButton" class="btn btn-success btn-lg d-flex align-items-center gap-2 rounded-pill shadow-sm">
+        <img src="icons8-search-48.png" style="height:22px;width:22px"> Search
+      </button>
+    </div>
+
+    <div id="divider"></div>
+    <div id="resultFrame" class="p-3 row g-3"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    /* === Dark Mode (System Preference Enabled) === */
+    const darkToggle = document.getElementById('darkToggleBtn');
+    const themeLabel = document.getElementById('themeLabel');
+    const slider = document.getElementById('toggleSlider');
+    const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function applyTheme() {
+      const dark = document.body.classList.contains('dark-mode');
+      themeLabel.textContent = dark ? 'Dark' : 'Light';
+      slider.style.background = dark ? '#6b7280' : '#ccc';
+      slider.firstElementChild.style.left = dark ? '22px' : '2px';
+    }
+
+    function checkSystemTheme() {
+      const systemPrefersDark = colorSchemeQuery.matches;
+      const storedTheme = localStorage.getItem('theme');
+
+      if (storedTheme === 'dark' || (storedTheme === null && systemPrefersDark)) {
+        document.body.classList.add('dark-mode');
+        darkToggle.checked = true;
+      } else {
+        document.body.classList.remove('dark-mode');
+        darkToggle.checked = false;
+      }
+      applyTheme();
+    }
+
+    checkSystemTheme();
+
+    colorSchemeQuery.addEventListener('change', checkSystemTheme);
+
+    darkToggle.onclick = () => {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+      applyTheme();
+    };
+
+    /* === Loader === */
+    document.addEventListener('DOMContentLoaded', () => {
+      const loader = document.getElementById('loader');
+      window.showLoader = () => loader && loader.classList.remove('d-none');
+      window.hideLoader = () => loader && loader.classList.add('d-none');
+    });
+
+    /* === Global Vars for Search === */
+    let page = 1;
+    let query = '';
+
+    /* === Search Logic === */
+    function search() {
+      const q = document.getElementById('searchInput').value.trim();
+      if (!q) return;
+
+      query = q;
+      page = 1;
+      showLoader();
+
+      const apiKey = 'AIzaSyA2iJ5eI2Y_4wM04yOaX0fXpINMemQAnw0';
+      const cx = '40f00a839f2504550';
+      fetch(`https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${cx}&q=${encodeURIComponent(q)}`)
+        .then(r => r.json()).then(d => displayResults(d.items || []));
+    }
+
+    document.getElementById('searchButton').onclick = search;
+    document.getElementById('searchInput').onkeydown = e => { if (e.key === 'Enter') search(); };
+
+    /* === Display Results === */
+    function displayResults(items, append = false) {
+      hideLoader();
+      const box = document.getElementById('resultFrame');
+      if (!append) box.innerHTML = '';
+
+      if (!items || items.length === 0) {
+        if (!append) box.innerHTML = '<p class="text-center text-danger">No results found.</p>';
+        return;
+      }
+
+      items.forEach(r => {
+        const img = r?.pagemap?.cse_image?.[0]?.src || '';
+        box.innerHTML += `
+        <div class="col-md-6 col-lg-4">
+          <div class="card result-card shadow-sm p-3 animate-fade h-100">
+            <h5 class="text-success text-center mb-2">
+              <a href="${r.link}" target="_blank" class="text-decoration-none text-break">${r.title}</a>
+            </h5>
+            <div class="d-flex align-items-start">
+              ${img ? `<img src="${img}" class="me-3 rounded flex-shrink-0" style="width:80px;height:80px;object-fit:cover">` : ''}
+              <div class="text-muted flex-grow-1 text-break" style="min-width: 0;">
+                ${r.snippet || ''}
+              </div>
+            </div>
+          </div>
+        </div>`;
+      });
+    }
+
+    /* === Animation === */
+    const fade = document.createElement('style');
+    fade.innerHTML = `.animate-fade{animation:fadeIn .5s;} @keyframes fadeIn{from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);}}`;
+    document.head.appendChild(fade);
+
+    /* === Resizable Panels === */
+    const container = document.getElementById('container');
+    const left = document.getElementById('searchFrame');
+    const right = document.getElementById('resultFrame');
+    const divider = document.getElementById('divider');
+
+    window.addEventListener('DOMContentLoaded', () => {
+      left.style.flex = '1 1 0';
+      right.style.flex = '1 1 0';
+    });
+
+    let drag = false;
+
+    // Desktop Resize
+    divider.addEventListener('mousedown', e => { drag = true; document.body.style.userSelect = 'none'; });
+    document.addEventListener('mouseup', () => { drag = false; document.body.style.userSelect = ''; });
+    document.addEventListener('mousemove', e => {
+      if (!drag) return;
+      const rect = container.getBoundingClientRect();
+      let ratio = (e.clientX - rect.left) / rect.width;
+      ratio = Math.max(0.15, Math.min(0.85, ratio));
+      left.style.flex = `${ratio} 1 0`;
+      right.style.flex = `${1 - ratio} 1 0`;
+    });
+
+    // Mobile Resize
+    divider.addEventListener('touchstart', e => { drag = true; document.body.style.userSelect = 'none'; });
+    document.addEventListener('touchend', () => { drag = false; document.body.style.userSelect = ''; });
+    document.addEventListener('touchmove', e => {
+      if (!drag) return;
+      const touch = e.touches[0];
+      const rect = container.getBoundingClientRect();
+
+      if (window.innerWidth <= 768) {
+        let ratioY = (touch.clientY - rect.top) / rect.height;
+        ratioY = Math.max(0.15, Math.min(0.85, ratioY));
+        left.style.flex = `${ratioY} 1 0`;
+        right.style.flex = `${1 - ratioY} 1 0`;
+        left.style.height = '';
+        right.style.height = '';
+      } else {
+        let ratio = (touch.clientX - rect.left) / rect.width;
+        ratio = Math.max(0.15, Math.min(0.85, ratio));
+        left.style.flex = `${ratio} 1 0`;
+        right.style.flex = `${1 - ratio} 1 0`;
+      }
+    });
+
+    /* === Infinite Scroll === */
+    function loadMore() {
+      if (!query) return;
+      showLoader();
+      page++;
+      const apiKey = 'AIzaSyA2iJ5eI2Y_4wM04yOaX0fXpINMemQAnw0';
+      const cx = '40f00a839f2504550';
+      fetch(`https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${cx}&q=${encodeURIComponent(query)}&start=${page * 10}`)
+        .then(r => r.json())
+        .then(d => {
+          displayResults(d.items || [], true);
+        })
+        .catch(() => hideLoader());
+    }
+
+    document.getElementById('resultFrame').addEventListener('scroll', function () {
+      if (this.scrollTop + this.clientHeight >= this.scrollHeight - 100) {
+        loadMore();
+      }
+    });
+  </script>
+
+  <div id="loader" class="position-fixed top-50 start-50 translate-middle d-none">
+    <div class="spinner-border text-success" style="width:3rem;height:3rem"></div>
+  </div>
+
+</body>
+
+</html>
