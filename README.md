@@ -54,6 +54,20 @@ Search_modernize is designed to replicate a modern search UI with smooth transit
 </ul>
 
 
+<h2>📦 Installation & Setup</h2>
+
+To run this project locally:
+1. Clone the repository
+    <pre><code>git clone https://github.com/Aryak-Mohanty/Search_modernize.git</code></pre>
+    <pre><code>cd Search_modernize</code></pre>
+2. Run the application:
+Simply open the index.html file in any modern web browser.
+
+<h5>Important Notes</h5>
+1.<b></b>The Google Custom Search API requires internet access — offline search results are not possible.
+2.API key security is not suitable for production; keys are exposed in front-end code.
+3.For future security, route API calls through a backend proxy.
+
 <h2>🚀 Deployment</h2>
 
 Search_modernize is deployed using GitHub Pages, ensuring:
