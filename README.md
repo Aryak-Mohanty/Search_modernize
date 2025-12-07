@@ -59,7 +59,6 @@ Search_modernize is designed to replicate a modern search UI with smooth transit
 To run this project locally:
 1. Clone the repository
     <pre><code>git clone https://github.com/Aryak-Mohanty/Search_modernize.git</code></pre>
-    <pre><code>cd Search_modernize</code></pre>
 2. Run the application:
 Simply open the index.html file in any modern web browser.
 
