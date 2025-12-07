@@ -64,9 +64,10 @@ To run this project locally:
 Simply open the index.html file in any modern web browser.
 
 <h5>Important Notes</h5>
-1.<b></b>The Google Custom Search API requires internet access — offline search results are not possible.
-2.API key security is not suitable for production; keys are exposed in front-end code.
-3.For future security, route API calls through a backend proxy.
+<ol>
+<li><b>The Google Custom Search API requires internet access — offline search results are not possible.</b></li>
+<li>API key security is not suitable for production; keys are exposed in front-end code.</li>
+<li>For future security, route API calls through a backend proxy.</li>
 
 <h2>🚀 Deployment</h2>
 
