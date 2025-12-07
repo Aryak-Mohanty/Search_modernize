@@ -10,20 +10,20 @@ Search_modernize is designed to replicate a modern search UI with smooth transit
 
 <h2>🧩 Features</h2>
  
- 1. Modern & Responsive UI
+ 1. Modern & Responsive UI ->
 <ul style="list-style-type: disc;"> 
 <li>Clean layout built using Bootstrap 5 and Inter font</li>
 <li>Adjustable split-view with draggable divider (desktop & mobile)</li> 
 <li>Smooth animated result cards and transitions</li>
 </ul>
 
-2. Light/Dark Theme Toggle
+2. Light/Dark Theme Toggle ->
 <ul style="list-style-type: disc;"> 
 <li>Optional dark mode with persistent state via localStorage</li>
 <li>Auto-adapts to system preference (prefers-color-scheme)</li> 
 </ul>
 
-3. Advanced Search Behavior
+3. Advanced Search Behavior ->
 <ul style="list-style-type: disc;"> 
 <li>Integrated Google Custom Search API</li>
 <li>Infinite scroll for continuous result loading</li> 
@@ -31,13 +31,13 @@ Search_modernize is designed to replicate a modern search UI with smooth transit
 <li>Thumbnail preview if available via pagemap.cse_image</li>
 </ul>
 
-4. Offline Support (Service Worker)
+4. Offline Support (Service Worker) ->
 <ul style="list-style-type: disc;"> 
 <li>Caches essential resources (index.html, icons)</li>
 <li>Provides fallback view when offline</li> 
 </ul>
 
-5. Mobile-Optimized Design
+5. Mobile-Optimized Design ->
 <ul style="list-style-type: disc;"> 
 <li>Search panel collapses vertically</li>
 <li>Touch-enabled divider for resizing</li> 
@@ -64,10 +64,9 @@ To run this project locally:
 Simply open the index.html file in any modern web browser.
 
 <h5>Important Notes</h5>
-<ol>
-<li><b>The Google Custom Search API requires internet access — offline search results are not possible.</b></li>
-<li>API key security is not suitable for production; keys are exposed in front-end code.</li>
-<li>For future security, route API calls through a backend proxy.</li>
+<b>The Google Custom Search API requires internet access — offline search results are not possible.</b>
+API key security is not suitable for production; keys are exposed in front-end code.
+For future security, route API calls through a backend proxy.
 </ol>
 
 
