@@ -65,9 +65,6 @@ Simply open the index.html file in any modern web browser.
 
 <h5>Important Notes</h5>
 <b>The Google Custom Search API requires internet access — offline search results are not possible.</b>
-API key security is not suitable for production; keys are exposed in front-end code.
-For future security, route API calls through a backend proxy.
-</ol>
 
 
 <h2>🚀 Deployment</h2>
