@@ -63,7 +63,7 @@ To run this project locally:
 2. Run the application:
 Simply open the index.html file in any modern web browser.
 
-<h5>Important Notes</h5>
+<h5>Important Notes:</h5>
 <b>The Google Custom Search API requires internet access — offline search results are not possible.</b>
 
 
