@@ -1,6 +1,6 @@
 # Search UI
 
-This repository contains the complete source code for Search_modernize, an interactive web-based search application publicly hosted at: https://aryak-mohanty.github.io/Search_modernize/ .  The project provides a modern, responsive, and user-friendly interface that integrates Google Custom Search, offering a clean search experience with resizable panels, infinite scrolling, and optional dark mode.
+This repository contains the complete source code for Search_modernize, an interactive web-based search application publicly hosted at: [https://aryak-mohanty.github.io/Search_modernize/](https://aryak-mohanty.github.io/Search-Ui_basic-showcase/) .  The project provides a modern, responsive, and user-friendly interface that integrates Google Custom Search, offering a clean search experience with resizable panels, infinite scrolling, and optional dark mode.
 
 
 <h2>📌 Overview</h2>
